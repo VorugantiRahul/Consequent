@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consequent — Consequence-Driven Decision Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-section">
+        <div class="brand-logo">
+          <!-- Precision Loop Identity Mark -->
+          <svg class="loop-mark" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 0 0-7.07 17.07L12 22l7.07-2.93A10 10 0 0 0 12 2z"/>
+            <path d="M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/>
+          </svg>
+          <div class="brand-text">
+            <span class="brand-name">Consequent</span>
+            <span class="brand-tag">Decision Intelligence</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-action">
+        <button class="btn-new-case" id="btnSidebarNewCase">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>New Case</span>
+          <kbd>⌘N</kbd>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group-label">WORKSPACE</div>
+        <button class="nav-item active" data-view="view-workspace" id="navWorkspace">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>Active Cases</span>
+          <span class="nav-badge">1</span>
+        </button>
+        <button class="nav-item" data-view="view-library" id="navLibrary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <span>Experience Library</span>
+          <span class="nav-count" id="sidebarLibraryCount">23</span>
+        </button>
+        <button class="nav-item" data-view="view-analytics" id="navAnalytics">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          <span>Learning Analytics</span>
+        </button>
+
+        <div class="nav-group-label">SYSTEM</div>
+        <button class="nav-item" id="navSettings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Settings</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-indicator-row">
+          <span class="status-dot-green"></span>
+          <span class="status-label">Hindsight connected</span>
+        </div>
+        <div class="user-profile-card">
+          <div class="user-avatar">AM</div>
+          <div class="user-details">
+            <span class="user-name">Arjun Mehta</span>
+            <span class="user-role">Customer Success Lead</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN APP SHELL -->
+    <div class="main-shell">
+      
+      <!-- Top Demo & Philosophy Utility Bar -->
+      <header class="top-utility-bar">
+        <div class="tagline-container">
+          <span class="tagline-prefix">Philosophy:</span>
+          <span class="tagline-quote">“Most AI agents remember conversations. <strong>Consequent remembers consequences.</strong>”</span>
+        </div>
+
+        <!-- 60-Second Demo Stepper Bar -->
+        <div class="demo-stepper-control">
+          <div class="demo-badge">60S WALKTHROUGH</div>
+          <div class="demo-buttons">
+            <button class="demo-step-btn active" data-step="1" title="Step 1: Enter Problem">1. Problem</button>
+            <button class="demo-step-btn" data-step="2" title="Step 2: AI Recommendation">2. Recommend</button>
+            <button class="demo-step-btn" data-step="3" title="Step 3: Capture Outcome">3. Apply & Log</button>
+            <button class="demo-step-btn" data-step="4" title="Step 4: Save to Hindsight">4. Consequence</button>
+            <button class="demo-step-btn" data-step="5" title="Step 5: Better Decisions">5. Adapt</button>
+            <button class="btn-play-walkthrough" id="btnAutoWalkthrough">▶ Run Demo</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- VIEW 1: ACTIVE CASE DECISION WORKSPACE (Default) -->
+      <main class="view-panel active" id="view-workspace">
+        <div class="workspace-grid">
+          
+          <!-- CENTER: MAIN DECISION WORKSPACE -->
+          <section class="center-decision-area">
+            
+            <!-- 1. Header -->
+            <div class="case-header-card">
+              <div class="case-header-top">
+                <div class="case-title-row">
+                  <span class="case-breadcrumb">Active Cases / Escalations</span>
+                  <h1 class="case-title">Customer Escalation</h1>
+                </div>
+                <div class="case-meta-pills">
+                  <span class="pill pill-code" id="headerCaseId">OL-2048</span>
+                  <span class="pill pill-status-amber" id="headerStatus">Awaiting action</span>
+                  <span class="pill pill-priority-red" id="headerPriority">Critical</span>
+                </div>
+              </div>
+
+              <div class="case-header-details">
+                <div class="detail-item">
+                  <span class="detail-label">Customer</span>
+                  <span class="detail-value" id="headerCustomer">Meridian Systems</span>
+                </div>
+                <div class="detail-separator"></div>
+                <div class="detail-item">
+                  <span class="detail-label">Account Value</span>
+                  <span class="detail-value" id="headerValue">₹2,00,000</span>
+                </div>
+                <div class="detail-separator"></div>
+                <div class="detail-item">
+                  <span class="detail-label">Customer Tier</span>
+                  <span class="detail-value">Enterprise (Tier 1)</span>
+                </div>
+                <div class="detail-separator"></div>
+                <div class="detail-item">
+                  <span class="detail-label">Assigned Lead</span>
+                  <span class="detail-value">Arjun Mehta</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Problem Input Area -->
+            <div class="card problem-input-card">
+              <div class="card-section-header">
+                <h2 class="card-heading">Problem Context</h2>
+                <span class="card-hint">Structured operational parameters</span>
+              </div>
+
+              <div class="problem-textarea-wrapper">
+                <label for="problemText" class="form-label">Escalation Narrative</label>
+                <textarea id="problemText" class="problem-textarea" rows="3" placeholder="Describe the enterprise issue...">An enterprise customer is threatening to cancel after their order was delayed twice. Compensation was already offered, but they remain dissatisfied.</textarea>
+              </div>
+
+              <!-- Structured Context Controls -->
+              <div class="context-controls-grid">
+                <div class="control-group">
+                  <label class="control-label" for="selectTier">Customer Tier</label>
+                  <select id="selectTier" class="form-select">
+                    <option value="Enterprise" selected>Enterprise (Tier 1)</option>
+                    <option value="Mid-Market">Mid-Market (Tier 2)</option>
+                    <option value="SMB">SMB (Tier 3)</option>
+                  </select>
+                </div>
+
+                <div class="control-group">
+                  <label class="control-label" for="selectCategory">Issue Category</label>
+                  <select id="selectCategory" class="form-select">
+                    <option value="Delivery Delay" selected>Delivery Delay</option>
+                    <option value="SLA Breach">SLA Breach</option>
+                    <option value="Product Defect">Product Defect</option>
+                    <option value="Billing Discrepancy">Billing Discrepancy</option>
+                    <option value="Contract Renewal">Contract Renewal</option>
+                  </select>
+                </div>
+
+                <div class="control-group">
+                  <label class="control-label" for="selectUrgency">Urgency</label>
+                  <select id="selectUrgency" class="form-select">
+                    <option value="Critical" selected>Critical (Immediate churn)</option>
+                    <option value="High">High (&lt; 4 hours)</option>
+                    <option value="Medium">Medium (&lt; 24 hours)</option>
+                  </select>
+                </div>
+
+                <div class="control-group">
+                  <label class="control-label" for="selectPrevAction">Previous Actions</label>
+                  <select id="selectPrevAction" class="form-select">
+                    <option value="Compensation already offered" selected>Compensation already offered (₹5,000 credit)</option>
+                    <option value="Apology email sent">Apology email sent</option>
+                    <option value="Standard ticket opened">Standard ticket opened</option>
+                    <option value="None">None</option>
+                  </select>
+                </div>
+
+                <div class="control-group">
+                  <label class="control-label" for="selectRisk">Relationship Risk</label>
+                  <select id="selectRisk" class="form-select">
+                    <option value="High (Imminent churn risk)" selected>High (Imminent churn)</option>
+                    <option value="Moderate">Moderate (Escalated to VP)</option>
+                    <option value="Low">Low (Operational friction)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-action-row">
+                <button class="btn-primary" id="btnGenerateRec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                  <span>Generate recommendation</span>
+                </button>
+                <span class="retrieval-status" id="retrievalStatus">Memory indexed • 18 historical cases queried</span>
+              </div>
+            </div>
+
+            <!-- 3. AI Recommendation Section -->
+            <div class="card recommendation-card" id="recommendationCard">
+              <div class="rec-header">
+                <div class="rec-title-block">
+                  <span class="rec-kicker">CONSEQUENT RECOMMENDATION</span>
+                  <h3 class="rec-heading" id="recHeadline">Escalate directly to the regional operations lead, provide a confirmed delivery commitment within two hours, and schedule an executive follow-up with the customer.</h3>
+                </div>
+                <div class="rec-confidence-box">
+                  <span class="confidence-label">EMPIRICAL CONFIDENCE</span>
+                  <span class="confidence-value" id="recConfidence">87%</span>
+                </div>
+              </div>
+
+              <!-- Three Numbered Action Steps -->
+              <div class="action-steps-list" id="actionStepsContainer">
+                <div class="action-step-item">
+                  <div class="step-badge">1</div>
+                  <div class="step-content">
+                    <div class="step-title">Immediate Internal Escalation to Operations Lead</div>
+                    <div class="step-desc">Engage Regional Operations Lead (Suresh Rao) directly via priority channel to lock in physical parcel verification at the primary transit hub and secure courier assignment within 30 minutes.</div>
+                  </div>
+                </div>
+
+                <div class="action-step-item">
+                  <div class="step-badge">2</div>
+                  <div class="step-content">
+                    <div class="step-title">Deliver Confirmed 2-Hour Delivery Commitment with Dedicated Telemetry</div>
+                    <div class="step-desc">Transmit a formal, binding delivery window to Meridian Systems VP of Operations (Nikhil Sharma) backed by real-time GPS telemetry link rather than standard ticketing notifications.</div>
+                  </div>
+                </div>
+
+                <div class="action-step-item">
+                  <div class="step-badge">3</div>
+                  <div class="step-content">
+                    <div class="step-title">Coordinate Executive Sponsor Alignment Call</div>
+                    <div class="step-desc">Schedule a 15-minute briefing between Customer Success VP (Priya Venkat) and customer leadership for this evening to review operational safeguards and prevent contract dissolution.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Structured Justification Grid -->
+              <div class="rec-rationale-grid">
+                <div class="rationale-block">
+                  <span class="rationale-tag">WHY THIS APPROACH</span>
+                  <p class="rationale-text" id="recWhyThisApproach">
+                    Historical consequence data reveals that high-value enterprise accounts (₹2,00,000+) facing repeat delivery failures reject transactional compensation. In 4 of 5 comparable cases, offering discounts alone triggered immediate churn. Accounts were successfully retained when management substituted monetary rebates with unambiguous delivery ownership and executive accountability.
+                  </p>
+                </div>
+
+                <div class="rationale-block warning-block">
+                  <span class="rationale-tag warning-tag">RELEVANT RISKS</span>
+                  <p class="rationale-text" id="recRelevantRisks">
+                    Failure to meet the 2-hour delivery commitment will trigger immediate contractual cancellation and potential legal notice. Operations lead must verify courier availability before communicating the SLA commitment to the client.
+                  </p>
+                </div>
+              </div>
+
+              <div class="expected-outcome-row">
+                <div class="expected-label">EXPECTED OUTCOME</div>
+                <div class="expected-value" id="recExpectedOutcome">
+                  Retention of the ₹2,00,000 annual contract with customer sentiment stabilizing within 24 hours (87% empirical probability based on 18 comparable historical cases).
+                </div>
+              </div>
+
+              <!-- Recommendation Actions -->
+              <div class="rec-buttons-row">
+                <button class="btn-primary" id="btnApplyRec">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Apply recommendation</span>
+                </button>
+                <button class="btn-secondary" id="btnReviseRec">Revise parameters</button>
+                <span class="apply-status-text" id="applyStatusText">Ready for operational execution</span>
+              </div>
+            </div>
+
+            <!-- 4. Outcome Capture Workflow (Centrally Featured Feedback Loop) -->
+            <div class="card outcome-capture-card" id="outcomeSection">
+              <div class="outcome-card-header">
+                <div class="outcome-header-title">
+                  <div class="outcome-badge-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                  </div>
+                  <div>
+                    <h2 class="card-heading">Outcome Capture & Real-World Consequence</h2>
+                    <p class="card-subtext">Record the definitive operational result to permanently calibrate future agent decisions.</p>
+                  </div>
+                </div>
+                <span class="loop-phase-indicator">PHASE 4 OF DECISION LOOP</span>
+              </div>
+
+              <div class="outcome-body">
+                <!-- Status Pills -->
+                <div class="outcome-selector-group">
+                  <label class="control-label">Actual Customer Result</label>
+                  <div class="status-pills-row">
+                    <button class="outcome-pill-btn active-success" data-outcome="SUCCESS">
+                      <span class="pill-dot green"></span>
+                      <span>Successful</span>
+                    </button>
+                    <button class="outcome-pill-btn" data-outcome="PARTIALLY_SUCCESSFUL">
+                      <span class="pill-dot amber"></span>
+                      <span>Partially successful</span>
+                    </button>
+                    <button class="outcome-pill-btn" data-outcome="FAILED">
+                      <span class="pill-dot red"></span>
+                      <span>Failed</span>
+                    </button>
+                    <button class="outcome-pill-btn" data-outcome="PENDING">
+                      <span class="pill-dot gray"></span>
+                      <span>Still pending</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="form-row-dual">
+                  <div class="form-col flex-2">
+                    <label class="control-label" for="inputCustomerResponse">Customer Response & Feedback</label>
+                    <input type="text" id="inputCustomerResponse" class="form-input" value="Customer agreed to executive call and accepted the 2-hour delivery SLA without canceling." placeholder="How did the customer react?" />
+                  </div>
+                  <div class="form-col flex-1">
+                    <label class="control-label" for="selectResolutionTime">Resolution Time</label>
+                    <select id="selectResolutionTime" class="form-select">
+                      <option value="1.5 hours">1.5 hours</option>
+                      <option value="2 hours" selected>2 hours</option>
+                      <option value="4 hours">4 hours</option>
+                      <option value="Same day">Same day</option>
+                      <option value="48+ hours">48+ hours</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-col">
+                  <label class="control-label" for="inputOutcomeNotes">Operational Post-Mortem / Notes (Optional)</label>
+                  <textarea id="inputOutcomeNotes" class="form-textarea-compact" rows="2" placeholder="Key takeaways or non-obvious operational factors...">Regional ops verified courier delivery within 1 hour 45 minutes. Nikhil Sharma (VP Operations) confirmed cancellation is withdrawn.</textarea>
+                </div>
+
+                <div class="outcome-commit-row">
+                  <button class="btn-commit-hindsight" id="btnSaveOutcome">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    <span>Save outcome to Hindsight</span>
+                  </button>
+                  <div class="feedback-animation-callout" id="feedbackSuccessMessage">
+                    <span class="check-icon">✓</span>
+                    <span id="feedbackText">Recorded as EXP-124. Hindsight Memory updated immediately.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- RIGHT: EXPERIENCE INTELLIGENCE PANEL -->
+          <aside class="right-intelligence-panel">
+            
+            <div class="intel-header">
+              <div class="intel-title-row">
+                <span class="intel-kicker">CONTEXTUAL HINDSIGHT</span>
+                <h3 class="intel-heading">What Consequent remembers</h3>
+              </div>
+              <span class="hindsight-live-tag">LIVE</span>
+            </div>
+
+            <!-- Headline Stats Box -->
+            <div class="intel-stats-card">
+              <div class="similar-analyzed-title">
+                <span class="analyzed-count" id="intelTotalAnalyzed">18</span>
+                <span class="analyzed-text">similar experiences analyzed</span>
+              </div>
+
+              <div class="ratio-breakdown-bar">
+                <div class="bar-success" id="intelBarSuccess" style="width: 61%;"></div>
+                <div class="bar-failure" id="intelBarFailure" style="width: 39%;"></div>
+              </div>
+
+              <div class="ratio-labels-row">
+                <div class="ratio-label success">
+                  <span class="dot green"></span>
+                  <span id="intelCountSuccess">11 successful</span>
+                </div>
+                <div class="ratio-label failure">
+                  <span class="dot red"></span>
+                  <span id="intelCountFailure">7 unsuccessful</span>
+                </div>
+              </div>
+
+              <div class="metrics-subgrid">
+                <div class="metric-item">
+                  <span class="metric-label">Best Historical Rate</span>
+                  <span class="metric-value font-green" id="intelBestRate">78%</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Similarity Score</span>
+                  <span class="metric-value" id="intelSimilarity">92%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Most Effective Approach Banner -->
+            <div class="insight-banner success-banner">
+              <span class="banner-tag">MOST EFFECTIVE APPROACH</span>
+              <p class="banner-body" id="intelBestApproach">
+                Confirmed delivery commitment + direct escalation
+              </p>
+            </div>
+
+            <!-- Historical Failure Warning -->
+            <div class="insight-banner warning-banner">
+              <span class="banner-tag red-tag">HISTORICAL FAILURE PATTERN</span>
+              <p class="banner-body" id="intelWarning">
+                Compensation alone failed in 4 of 5 comparable high-value accounts.
+              </p>
+            </div>
+
+            <!-- Learning State Comparison: Generic vs Outcome-Informed -->
+            <div class="learning-state-card">
+              <div class="learning-state-badge">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                <span id="learningStateBadge">Recommendation adapted from 18 prior cases.</span>
+              </div>
+
+              <div class="comparison-container">
+                <div class="comparison-block generic">
+                  <span class="comp-label">PREVIOUS GENERIC APPROACH</span>
+                  <p class="comp-text">“Apologize and offer compensation.”</p>
+                </div>
+
+                <div class="comp-arrow">↓</div>
+
+                <div class="comparison-block informed">
+                  <span class="comp-label font-green">OUTCOME-INFORMED APPROACH</span>
+                  <p class="comp-text">“Confirm delivery ownership, escalate internally, and involve an executive sponsor.”</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Animated Learning-Loop Visualization -->
+            <div class="learning-loop-card">
+              <span class="loop-widget-title">CONTINUOUS HINDSIGHT CYCLE</span>
+              <div class="loop-track">
+                <span class="loop-node node-active" id="nodeProblem">Problem</span>
+                <span class="loop-arrow">→</span>
+                <span class="loop-node" id="nodeRec">Rec</span>
+                <span class="loop-arrow">→</span>
+                <span class="loop-node" id="nodeAction">Action</span>
+                <span class="loop-arrow">→</span>
+                <span class="loop-node" id="nodeOutcome">Outcome</span>
+                <span class="loop-arrow">→</span>
+                <span class="loop-node" id="nodeMemory">Memory</span>
+                <span class="loop-arrow">→</span>
+                <span class="loop-node node-highlight" id="nodeDecision">Better Decision</span>
+              </div>
+            </div>
+
+            <!-- Retrieved Experience Entries (Compact Cards) -->
+            <div class="retrieved-cases-section">
+              <div class="retrieved-cases-header">
+                <span class="section-title">TOP MATCHED HISTORICAL CASES</span>
+                <span class="count-tag">3 OF 18</span>
+              </div>
+
+              <div class="retrieved-cards-stack" id="retrievedCardsStack">
+                <!-- Case 1: Early Failure -->
+                <div class="retrieved-card outcome-fail">
+                  <div class="retrieved-card-top">
+                    <span class="case-code">EXP-101 • Apex Logistics</span>
+                    <span class="outcome-badge red">FAILED</span>
+                  </div>
+                  <div class="retrieved-meta">
+                    <span class="tier-pill">Enterprise</span>
+                    <span class="sim-pill">94% similarity</span>
+                  </div>
+                  <div class="retrieved-rec">
+                    <strong>Rec:</strong> Apologize politely and issue ₹5,000 account credit
+                  </div>
+                  <div class="retrieved-result">
+                    <strong>Result:</strong> Client rejected credit as dismissive; canceled contract.
+                  </div>
+                </div>
+
+                <!-- Case 2: Winning Approach -->
+                <div class="retrieved-card outcome-win">
+                  <div class="retrieved-card-top">
+                    <span class="case-code">EXP-104 • Zenith Retail Tech</span>
+                    <span class="outcome-badge green">SUCCESS</span>
+                  </div>
+                  <div class="retrieved-meta">
+                    <span class="tier-pill">Enterprise</span>
+                    <span class="sim-pill">91% similarity</span>
+                  </div>
+                  <div class="retrieved-rec">
+                    <strong>Rec:</strong> Ops Lead escalation + 4-hour SLA courier + VP call
+                  </div>
+                  <div class="retrieved-result">
+                    <strong>Result:</strong> Retained account; client renewed contract for 2 years.
+                  </div>
+                </div>
+
+                <!-- Case 3: Transparent cadence -->
+                <div class="retrieved-card outcome-win">
+                  <div class="retrieved-card-top">
+                    <span class="case-code">EXP-108 • Kalyan Global Freight</span>
+                    <span class="outcome-badge green">SUCCESS</span>
+                  </div>
+                  <div class="retrieved-meta">
+                    <span class="tier-pill">Enterprise</span>
+                    <span class="sim-pill">88% similarity</span>
+                  </div>
+                  <div class="retrieved-rec">
+                    <strong>Rec:</strong> Station hub expediter + 3x daily executive status brief
+                  </div>
+                  <div class="retrieved-result">
+                    <strong>Result:</strong> Restored confidence; waived delay penalty.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </aside>
+
+        </div>
+      </main>
+
+      <!-- VIEW 2: EXPERIENCE LIBRARY (Dense Scannable Table) -->
+      <section class="view-panel" id="view-library">
+        <div class="library-container">
+          
+          <div class="library-header-row">
+            <div>
+              <h1 class="page-heading">Experience Library</h1>
+              <p class="page-subheading">Dense, operational repository of accumulated decisions and empirical consequences.</p>
+            </div>
+            <div class="library-actions">
+              <button class="btn-secondary" id="btnExportLibrary">Export CSV</button>
+              <button class="btn-primary" id="btnLibraryNewCase">+ Add Past Record</button>
+            </div>
+          </div>
+
+          <!-- Search and Filter Bar -->
+          <div class="filter-toolbar card">
+            <div class="search-input-wrapper">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="librarySearchInput" class="search-field" placeholder="Search customer, issue, recommendation, or case code..." />
+            </div>
+
+            <div class="filter-controls-row">
+              <select id="filterTier" class="filter-select">
+                <option value="ALL">All Customer Tiers</option>
+                <option value="Enterprise">Enterprise</option>
+                <option value="Mid-Market">Mid-Market</option>
+                <option value="SMB">SMB</option>
+              </select>
+
+              <select id="filterCategory" class="filter-select">
+                <option value="ALL">All Issue Categories</option>
+                <option value="Delivery Delay">Delivery Delay</option>
+                <option value="SLA Breach">SLA Breach</option>
+                <option value="Product Defect">Product Defect</option>
+                <option value="Billing Discrepancy">Billing Discrepancy</option>
+                <option value="Contract Renewal">Contract Renewal</option>
+              </select>
+
+              <select id="filterOutcome" class="filter-select">
+                <option value="ALL">All Outcomes</option>
+                <option value="SUCCESS">Successful (✅)</option>
+                <option value="FAILED">Failed (❌)</option>
+                <option value="PENDING">Pending (⏳)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dense Scannable Table -->
+          <div class="card table-card">
+            <div class="table-responsive">
+              <table class="library-table" id="libraryTable">
+                <thead>
+                  <tr>
+                    <th>Case ID</th>
+                    <th>Customer & Problem Summary</th>
+                    <th>Customer Tier</th>
+                    <th>Recommended Action</th>
+                    <th>Outcome</th>
+                    <th>Confidence</th>
+                    <th>Similarity</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody id="libraryTableBody">
+                  <!-- Populated dynamically by app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- VIEW 3: LEARNING ANALYTICS SCREEN -->
+      <section class="view-panel" id="view-analytics">
+        <div class="analytics-container">
+          
+          <div class="analytics-header-row">
+            <div>
+              <h1 class="page-heading">Learning Analytics</h1>
+              <p class="page-subheading">Operational metrics demonstrating how Hindsight converts consequences into strategic edge.</p>
+            </div>
+            <div class="analytics-filter-badge">Accumulated Over 23 Incidents</div>
+          </div>
+
+          <!-- Top Metric Cards -->
+          <div class="analytics-kpi-grid">
+            <div class="kpi-card card">
+              <span class="kpi-label">TOTAL EXPERIENCES LEARNED</span>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpiTotal">23</span>
+                <span class="kpi-trend green">↑ 100% indexed</span>
+              </div>
+              <span class="kpi-sub">Continuous consequence memory</span>
+            </div>
+
+            <div class="kpi-card card">
+              <span class="kpi-label">SUCCESSFUL OUTCOMES</span>
+              <div class="kpi-value-row">
+                <span class="kpi-value font-green" id="kpiSuccess">14</span>
+                <span class="kpi-sub-pill green-pill">67% baseline</span>
+              </div>
+              <span class="kpi-sub">Accounts protected from churn</span>
+            </div>
+
+            <div class="kpi-card card">
+              <span class="kpi-label">FAILED OUTCOMES</span>
+              <div class="kpi-value-row">
+                <span class="kpi-value font-red" id="kpiFailed">7</span>
+                <span class="kpi-sub-pill red-pill">Permanently learned</span>
+              </div>
+              <span class="kpi-sub">Discredited flawed playbooks</span>
+            </div>
+
+            <div class="kpi-card card">
+              <span class="kpi-label">PENDING OUTCOMES</span>
+              <div class="kpi-value-row">
+                <span class="kpi-value font-amber" id="kpiPending">2</span>
+                <span class="kpi-sub-pill amber-pill">Active cycles</span>
+              </div>
+              <span class="kpi-sub">Under active customer review</span>
+            </div>
+          </div>
+
+          <!-- Main Analytics Grid -->
+          <div class="analytics-details-grid">
+            
+            <!-- Left: Success Rate Trend & Growth Over Time -->
+            <div class="card analytics-chart-card flex-2">
+              <div class="chart-header">
+                <div>
+                  <h3 class="card-heading">Success Rate Trend Over Sequential Cases</h3>
+                  <p class="card-subtext">Shows empirical decision accuracy improving as historical outcomes are absorbed.</p>
+                </div>
+                <div class="legend-row">
+                  <span class="legend-dot green"></span>
+                  <span class="legend-text">Cumulative Decision Accuracy</span>
+                </div>
+              </div>
+
+              <div class="trend-chart-box" id="trendChartBox">
+                <!-- SVG Line Chart dynamically drawn by app.js -->
+              </div>
+            </div>
+
+            <!-- Right: Breakdown by Customer Tier -->
+            <div class="card tier-breakdown-card flex-1">
+              <div class="chart-header">
+                <h3 class="card-heading">Outcome Breakdown by Customer Tier</h3>
+                <p class="card-subtext">Consequence sensitivity varies by account scale.</p>
+              </div>
+
+              <div class="tier-bars-stack" id="tierBarsStack">
+                <!-- Enterprise -->
+                <div class="tier-bar-group">
+                  <div class="tier-bar-labels">
+                    <span class="tier-name font-bold">Enterprise (Tier 1)</span>
+                    <span class="tier-stat">8 Win / 6 Loss / 1 Pend</span>
+                  </div>
+                  <div class="compound-bar">
+                    <div class="comp-segment green" style="width: 53%;"></div>
+                    <div class="comp-segment red" style="width: 40%;"></div>
+                    <div class="comp-segment amber" style="width: 7%;"></div>
+                  </div>
+                  <span class="tier-insight">High stakes: Rejects transactional coupons.</span>
+                </div>
+
+                <!-- Mid-Market -->
+                <div class="tier-bar-group">
+                  <div class="tier-bar-labels">
+                    <span class="tier-name font-bold">Mid-Market (Tier 2)</span>
+                    <span class="tier-stat">3 Win / 1 Loss / 1 Pend</span>
+                  </div>
+                  <div class="compound-bar">
+                    <div class="comp-segment green" style="width: 60%;"></div>
+                    <div class="comp-segment red" style="width: 20%;"></div>
+                    <div class="comp-segment amber" style="width: 20%;"></div>
+                  </div>
+                  <span class="tier-insight">Technical alignment & direct engineer access work best.</span>
+                </div>
+
+                <!-- SMB -->
+                <div class="tier-bar-group">
+                  <div class="tier-bar-labels">
+                    <span class="tier-name font-bold">SMB (Tier 3)</span>
+                    <span class="tier-stat">3 Win / 0 Loss</span>
+                  </div>
+                  <div class="compound-bar">
+                    <div class="comp-segment green" style="width: 100%;"></div>
+                  </div>
+                  <span class="tier-insight">Instant billing refunds & credits achieve 100% satisfaction.</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Grid: Failure Patterns & Interventions -->
+          <div class="analytics-details-grid mt-4">
+            
+            <!-- Patterns Associated with Failure -->
+            <div class="card failure-patterns-card flex-1">
+              <div class="chart-header">
+                <h3 class="card-heading font-red">⚠️ Operational Patterns Associated with Failure</h3>
+                <p class="card-subtext">Playbooks permanently discredited through negative real-world consequence.</p>
+              </div>
+
+              <div class="patterns-list" id="failurePatternsList">
+                <div class="pattern-item">
+                  <div class="pattern-top">
+                    <span class="pattern-name">Token discounts during operational disruptions</span>
+                    <span class="pill pill-priority-red">80% Churn Rate</span>
+                  </div>
+                  <p class="pattern-desc">Offering ₹5k discounts on ₹2L accounts feels insulting to executive buyers when physical shipments or production lines stop.</p>
+                </div>
+
+                <div class="pattern-item">
+                  <div class="pattern-top">
+                    <span class="pattern-name">Automated SLA penalty credits without engineering RCA</span>
+                    <span class="pill pill-priority-red">100% Dispute Rate</span>
+                  </div>
+                  <p class="pattern-desc">Enterprise CTOs perceive auto-credits as dodging accountability. Requires joint engineering war room.</p>
+                </div>
+
+                <div class="pattern-item">
+                  <div class="pattern-top">
+                    <span class="pattern-name">Burden of proof placed on client in billing disputes</span>
+                    <span class="pill pill-status-amber">100% Migration</span>
+                  </div>
+                  <p class="pattern-desc">Demanding logs from paying mid-market accounts triggers immediate competitor migration.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Most Effective Interventions -->
+            <div class="card interventions-card flex-1">
+              <div class="chart-header">
+                <h3 class="card-heading font-green">🏆 Most Effective Strategic Interventions</h3>
+                <p class="card-subtext">Empirically validated playbooks with the highest verified retention.</p>
+              </div>
+
+              <div class="interventions-list" id="interventionsList">
+                <div class="intervention-item">
+                  <div class="intervention-top">
+                    <span class="intervention-name">Confirmed 2h delivery SLA + Direct Operations Lead Escalation</span>
+                    <span class="pill pill-status-green">86% Success</span>
+                  </div>
+                  <p class="intervention-desc">Applicable to Enterprise & Mid-Market delays. Replaces generic tracking with dedicated courier telemetry.</p>
+                </div>
+
+                <div class="intervention-item">
+                  <div class="intervention-top">
+                    <span class="intervention-name">Joint CTO War Room + 12h Transparent Root Cause Analysis</span>
+                    <span class="pill pill-status-green">100% Success</span>
+                  </div>
+                  <p class="intervention-desc">Transforms SLA breaches into demonstration of architectural transparency and leadership respect.</p>
+                </div>
+
+                <div class="intervention-item">
+                  <div class="intervention-top">
+                    <span class="intervention-name">No-questions-asked invoice reversal via WhatsApp confirmation</span>
+                    <span class="pill pill-status-green">100% Success</span>
+                  </div>
+                  <p class="intervention-desc">Instantaneous friction-free resolution tailored to SMB cash-flow sensitivities.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- SLIDE-OVER DETAIL MODAL FOR EXPERIENCE LIBRARY -->
+  <div class="modal-backdrop" id="caseModalBackdrop">
+    <div class="slideover-modal" id="caseModal">
+      <div class="slideover-header">
+        <div>
+          <span class="modal-case-code" id="modalCaseCode">EXP-101</span>
+          <h2 class="modal-title" id="modalCustomerTitle">Apex Logistics Global</h2>
+        </div>
+        <button class="btn-close-modal" id="btnCloseModal">✕</button>
+      </div>
+
+      <div class="slideover-body" id="modalBody">
+        <!-- Populated dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Accessible Toast Notification -->
+  <div class="toast" id="toastNotification" role="alert" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
