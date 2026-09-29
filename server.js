@@ -36,6 +36,18 @@ app.post('/api/hindsight/configure', async (req, res) => {
   const { apiKey, baseUrl, bankId } = req.body;
   const status = hindsightService.configure({ apiKey, baseUrl, bankId });
   const testResult = await hindsightService.testConnection();
+
+  if (apiKey) {
+    try {
+      const fs = require('fs');
+      const envPath = path.join(__dirname, '.env');
+      const envContent = `HINDSIGHT_API_KEY=${apiKey}\nHINDSIGHT_BASE_URL=${baseUrl || 'https://api.hindsight.vectorize.io'}\nHINDSIGHT_BANK_ID=${bankId || 'consequent-operations'}\nPORT=3000\n`;
+      fs.writeFileSync(envPath, envContent, 'utf-8');
+    } catch (e) {
+      console.warn('Could not write .env:', e.message);
+    }
+  }
+
   res.json({
     success: testResult.success,
     status,

@@ -133,12 +133,12 @@ Hindsight Reflection: ${experience.hindsightTakeaway}
       const response = await this.client.retain(this.bankId, content, {
         context: `Enterprise escalation for ${experience.customerTier} client ${experience.customerName}`,
         metadata: {
-          id: experience.id,
-          customerTier: experience.customerTier,
-          issueCategory: experience.issueCategory,
-          outcome: experience.outcome,
-          confidence: experience.confidence,
-          contractValue: experience.contractValue
+          id: String(experience.id || ''),
+          customerTier: String(experience.customerTier || ''),
+          issueCategory: String(experience.issueCategory || ''),
+          outcome: String(experience.outcome || ''),
+          confidence: String(experience.confidence || ''),
+          contractValue: String(experience.contractValue || '')
         },
         tags: [
           experience.customerTier,
@@ -202,21 +202,51 @@ Hindsight Reflection: ${experience.hindsightTakeaway}
 
     try {
       await this.ensureBank();
-      let syncedCount = 0;
 
-      for (const exp of experiences) {
-        await this.retainConsequence(exp);
-        syncedCount++;
-      }
+      const items = experiences.map(experience => ({
+        content: `
+Case Code: ${experience.caseCode || experience.id}
+Customer: ${experience.customerName} (${experience.customerTier})
+Contract Value: ${experience.contractValue}
+Category: ${experience.issueCategory}
+Urgency: ${experience.urgency}
+Problem Summary: ${experience.problemSummary}
+Recommended Approach: ${experience.recommendedApproach}
+Action Taken: ${experience.actionTaken}
+Real-World Outcome: ${experience.outcome}
+Resolution Turnaround: ${experience.resolutionTime}
+Customer Response: ${experience.customerResponse}
+${experience.failureReason ? `Failure Reason: ${experience.failureReason}` : ''}
+Hindsight Reflection: ${experience.hindsightTakeaway}
+`.trim(),
+        context: `Enterprise escalation for ${experience.customerTier} client ${experience.customerName}`,
+        metadata: {
+          id: String(experience.id || ''),
+          customerTier: String(experience.customerTier || ''),
+          issueCategory: String(experience.issueCategory || ''),
+          outcome: String(experience.outcome || ''),
+          confidence: String(experience.confidence || ''),
+          contractValue: String(experience.contractValue || '')
+        },
+        tags: [
+          experience.customerTier,
+          experience.issueCategory,
+          experience.outcome
+        ]
+      }));
 
+      await this.client.retainBatch(this.bankId, items);
       this.lastSyncedAt = new Date().toISOString();
+
+      console.log(`✅ [Hindsight RetainBatch] Synchronized ${items.length} consequences into bank "${this.bankId}"`);
       return {
         success: true,
-        syncedCount,
+        syncedCount: items.length,
         bankId: this.bankId,
-        message: `Successfully synchronized ${syncedCount} consequences into Hindsight bank "${this.bankId}".`
+        message: `Successfully retained all ${items.length} consequences into Hindsight bank "${this.bankId}".`
       };
     } catch (err) {
+      console.error('Hindsight retainBatch error:', err);
       return {
         success: false,
         error: err.message,
