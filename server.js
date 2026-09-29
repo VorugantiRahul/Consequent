@@ -127,11 +127,15 @@ app.post('/api/reset', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(`🚀 Consequent Intelligence Server running at:`);
-  console.log(`   http://localhost:${PORT}`);
-  console.log(`   "Most AI agents remember conversations.`);
-  console.log(`    Consequent remembers consequences."`);
-  console.log(`=======================================================`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`=======================================================`);
+    console.log(`🚀 Consequent Intelligence Server running at:`);
+    console.log(`   http://localhost:${PORT}`);
+    console.log(`   "Most AI agents remember conversations.`);
+    console.log(`    Consequent remembers consequences."`);
+    console.log(`=======================================================`);
+  });
+}
+
+module.exports = app;

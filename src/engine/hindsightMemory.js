@@ -2,7 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const { SEED_EXPERIENCES } = require('./seedData');
 
-const DATA_FILE = path.join(__dirname, '..', 'data', 'memory_store.json');
+const DATA_FILE = process.env.VERCEL 
+  ? path.join('/tmp', 'memory_store.json') 
+  : path.join(__dirname, '..', 'data', 'memory_store.json');
 
 class HindsightMemory {
   constructor() {
