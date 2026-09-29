@@ -11,16 +11,42 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const hindsightService = require('./src/services/hindsightService');
+
 // 1. Health & status
 app.get('/api/status', (req, res) => {
   const analytics = hindsightMemory.getAnalytics();
+  const hindsightStatus = hindsightService.getStatus();
   res.json({
     status: 'ONLINE',
     system: 'Consequent Decision Engine',
     hindsightConnected: true,
+    hindsightStatus,
     tagline: 'Most AI agents remember conversations. Consequent remembers consequences.',
     analytics
   });
+});
+
+// Hindsight Engine Endpoints
+app.get('/api/hindsight/status', (req, res) => {
+  res.json(hindsightService.getStatus());
+});
+
+app.post('/api/hindsight/configure', async (req, res) => {
+  const { apiKey, baseUrl, bankId } = req.body;
+  const status = hindsightService.configure({ apiKey, baseUrl, bankId });
+  const testResult = await hindsightService.testConnection();
+  res.json({
+    success: testResult.success,
+    status,
+    testResult
+  });
+});
+
+app.post('/api/hindsight/sync', async (req, res) => {
+  const allExperiences = hindsightMemory.getAll();
+  const result = await hindsightService.syncBatch(allExperiences);
+  res.json(result);
 });
 
 // 2. Default target case (OL-2048: Meridian Systems)

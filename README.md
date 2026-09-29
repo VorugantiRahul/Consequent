@@ -4,6 +4,10 @@
 
 An enterprise AI decision-support agent designed for Customer Success and Operations Leads handling high-value customer escalations. Consequent learns directly from the real-world operational consequences of its past recommendations.
 
+## 🌐 Live Deployment
+
+[Open Consequent](https://consequent.onrender.com)
+
 ---
 
 ## 🏛️ Enterprise Visual & UX Architecture

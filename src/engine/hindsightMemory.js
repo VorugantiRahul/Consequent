@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { SEED_EXPERIENCES } = require('./seedData');
+const hindsightService = require('../services/hindsightService');
 
 const DATA_FILE = process.env.VERCEL 
   ? path.join('/tmp', 'memory_store.json') 
@@ -276,6 +277,12 @@ class HindsightMemory {
 
     this.memories.unshift(newRecord); // Prepend so newest is at the top
     this.save();
+
+    // Asynchronously retain consequence into official Hindsight memory bank
+    hindsightService.retainConsequence(newRecord).catch(err => {
+      console.warn('Hindsight retain notification:', err.message);
+    });
+
     return {
       newRecord,
       updatedAnalytics: this.getAnalytics()

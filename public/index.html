@@ -814,6 +814,72 @@
     </div>
   </div>
 
+  <!-- HINDSIGHT MEMORY CONNECTION MODAL -->
+  <div class="modal-backdrop" id="hindsightModalBackdrop">
+    <div class="hindsight-config-modal card">
+      <div class="slideover-header">
+        <div>
+          <span class="modal-case-code">VECTORIZE.IO INTEGRATION</span>
+          <h2 class="modal-title">Hindsight Memory Connection</h2>
+        </div>
+        <button class="btn-close-modal" id="btnCloseHindsightModal">✕</button>
+      </div>
+
+      <div class="hindsight-modal-body">
+        <div class="hindsight-status-callout" id="hindsightLiveCallout">
+          <div class="status-indicator-row">
+            <span class="status-dot-green" id="hindsightDot"></span>
+            <span class="status-label" id="hindsightStatusText">Hindsight Client: Ready</span>
+          </div>
+          <p class="hindsight-status-sub" id="hindsightStatusDetail">
+            Connected via official <code>@vectorize-io/hindsight-client</code>. Operates with dual-layer empirical consequence memory.
+          </p>
+        </div>
+
+        <form id="hindsightConfigForm">
+          <div class="form-col">
+            <label class="control-label" for="inputHindsightApiKey">Hindsight API Key</label>
+            <input type="password" id="inputHindsightApiKey" class="form-input" placeholder="Enter Vectorize Hindsight API Key (e.g. hs_live_...)" />
+            <span class="field-hint">Leave blank if using local self-hosted Hindsight daemon</span>
+          </div>
+
+          <div class="form-row-dual">
+            <div class="form-col flex-2">
+              <label class="control-label" for="inputHindsightBaseUrl">Hindsight Base URL</label>
+              <input type="text" id="inputHindsightBaseUrl" class="form-input" value="https://api.hindsight.vectorize.io" />
+            </div>
+            <div class="form-col flex-1">
+              <label class="control-label" for="inputHindsightBankId">Memory Bank ID</label>
+              <input type="text" id="inputHindsightBankId" class="form-input" value="consequent-operations" />
+            </div>
+          </div>
+
+          <div class="hindsight-actions-row">
+            <button type="button" class="btn-secondary" id="btnTestHindsight">Ping Connection</button>
+            <button type="submit" class="btn-primary" id="btnSaveHindsight">Save Configuration</button>
+          </div>
+        </form>
+
+        <div class="hindsight-sync-card">
+          <div class="sync-card-top">
+            <div>
+              <strong style="color: var(--text-main);">Sync Historical Experiences to Cloud</strong>
+              <p style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+                Populate your live Hindsight Memory Bank with all 23 historical cases using <code>retain()</code>.
+              </p>
+            </div>
+            <button class="btn-commit-hindsight" style="padding: 6px 12px; font-size: 11px;" id="btnSyncToHindsight">
+              Sync All to Bank
+            </button>
+          </div>
+          <div class="hindsight-console-log" id="hindsightConsoleLog">
+            [Hindsight SDK] Ready. @vectorize-io/hindsight-client v0.10.2 loaded.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SLIDE-OVER DETAIL MODAL FOR EXPERIENCE LIBRARY -->
   <div class="modal-backdrop" id="caseModalBackdrop">
     <div class="slideover-modal" id="caseModal">

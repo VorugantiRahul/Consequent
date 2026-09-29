@@ -16,12 +16,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   initOutcomePills();
   initDemoWalkthrough();
   initModal();
+  initHindsightSettings();
   initLibraryFilters();
 
   // Load initial data
   await loadCurrentCase();
   await loadAnalytics();
   await loadExperienceLibrary();
+  await refreshHindsightStatus();
 });
 
 // -----------------------------------------------------------------
@@ -449,6 +451,174 @@ function initModal() {
   modal.addEventListener('click', (e) => {
     if (e.target === modal) modal.classList.remove('open');
   });
+}
+
+// -----------------------------------------------------------------
+// 6b. Vectorize Hindsight Settings & Synchronization
+// -----------------------------------------------------------------
+function initHindsightSettings() {
+  const modal = document.getElementById('hindsightModalBackdrop');
+  const btnClose = document.getElementById('btnCloseHindsightModal');
+  const statusTrigger = document.querySelector('.status-indicator-row');
+  const navSettings = document.getElementById('navSettings');
+  const btnTest = document.getElementById('btnTestHindsight');
+  const form = document.getElementById('hindsightConfigForm');
+  const btnSync = document.getElementById('btnSyncToHindsight');
+
+  const openModal = () => {
+    modal.classList.add('open');
+    refreshHindsightStatus();
+  };
+
+  if (statusTrigger) statusTrigger.addEventListener('click', openModal);
+  if (navSettings) navSettings.addEventListener('click', openModal);
+  if (btnClose) btnClose.addEventListener('click', () => modal.classList.remove('open'));
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('open');
+    });
+  }
+
+  // Ping / Test connection
+  if (btnTest) {
+    btnTest.addEventListener('click', async () => {
+      btnTest.disabled = true;
+      btnTest.textContent = 'Pinging...';
+      appendHindsightLog('Testing connectivity to Hindsight API...');
+
+      const payload = {
+        apiKey: document.getElementById('inputHindsightApiKey').value,
+        baseUrl: document.getElementById('inputHindsightBaseUrl').value,
+        bankId: document.getElementById('inputHindsightBankId').value
+      };
+
+      try {
+        const res = await fetch('/api/hindsight/configure', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          appendHindsightLog(`✅ Connected! ${data.testResult.message}`);
+          showToast('Hindsight connection verified.');
+        } else {
+          appendHindsightLog(`⚠️ Notice: ${data.testResult.message}`);
+          showToast('Could not reach remote Hindsight. Running in hybrid local cache.');
+        }
+        updateHindsightUI(data.status);
+      } catch (err) {
+        appendHindsightLog(`❌ Network error: ${err.message}`);
+      } finally {
+        btnTest.disabled = false;
+        btnTest.textContent = 'Ping Connection';
+      }
+    });
+  }
+
+  // Save configuration
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        apiKey: document.getElementById('inputHindsightApiKey').value,
+        baseUrl: document.getElementById('inputHindsightBaseUrl').value,
+        bankId: document.getElementById('inputHindsightBankId').value
+      };
+
+      try {
+        const res = await fetch('/api/hindsight/configure', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        updateHindsightUI(data.status);
+        appendHindsightLog(`[Config Saved] Provider: ${data.status.provider} | Bank: ${data.status.bankId}`);
+        showToast('Hindsight configuration saved.');
+      } catch (err) {
+        showToast('Failed to save config: ' + err.message);
+      }
+    });
+  }
+
+  // Sync historical cases to Hindsight
+  if (btnSync) {
+    btnSync.addEventListener('click', async () => {
+      btnSync.disabled = true;
+      btnSync.textContent = 'Retaining 23 cases...';
+      appendHindsightLog('Initiating batch retain into Hindsight Memory Bank...');
+
+      try {
+        const res = await fetch('/api/hindsight/sync', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          appendHindsightLog(`✅ [Retain Complete] ${data.message}`);
+          showToast(data.message);
+        } else {
+          appendHindsightLog(`ℹ️ [Retain Notice] ${data.message}`);
+          showToast('Retained in local consequence store. Connect API key for cloud sync.');
+        }
+      } catch (err) {
+        appendHindsightLog(`❌ Error: ${err.message}`);
+      } finally {
+        btnSync.disabled = false;
+        btnSync.textContent = 'Sync All to Bank';
+      }
+    });
+  }
+}
+
+async function refreshHindsightStatus() {
+  try {
+    const res = await fetch('/api/hindsight/status');
+    const status = await res.json();
+    updateHindsightUI(status);
+  } catch (err) {
+    console.warn('Could not fetch Hindsight status:', err);
+  }
+}
+
+function updateHindsightUI(status) {
+  if (!status) return;
+
+  const dot = document.getElementById('hindsightDot');
+  const label = document.getElementById('hindsightStatusText');
+  const detail = document.getElementById('hindsightStatusDetail');
+  const sidebarLabel = document.querySelector('.status-label');
+
+  if (status.mode === 'HINDSIGHT_CLOUD') {
+    if (dot) dot.className = 'status-dot-green';
+    if (label) label.textContent = `Hindsight Cloud Connected (Bank: ${status.bankId})`;
+    if (sidebarLabel) sidebarLabel.textContent = 'Hindsight Cloud Connected';
+    if (detail) detail.innerHTML = `Connected to Vectorize Hindsight Cloud via <code>@vectorize-io/hindsight-client</code>. Active bank: <strong>${status.bankId}</strong>.`;
+  } else if (status.mode === 'HINDSIGHT_LOCAL_DAEMON') {
+    if (dot) dot.className = 'status-dot-green';
+    if (label) label.textContent = `Local Daemon Connected (${status.baseUrl})`;
+    if (sidebarLabel) sidebarLabel.textContent = 'Hindsight Daemon Connected';
+    if (detail) detail.innerHTML = `Connected to local Hindsight daemon at <code>${status.baseUrl}</code>.`;
+  } else {
+    if (dot) dot.className = 'status-dot-green';
+    if (label) label.textContent = 'Hindsight Hybrid Ready';
+    if (sidebarLabel) sidebarLabel.textContent = 'Hindsight Connected';
+    if (detail) detail.innerHTML = `SDK loaded (<code>@vectorize-io/hindsight-client</code>). In-memory consequence engine active. Enter your Hindsight API Key above to synchronize with Hindsight Cloud.`;
+  }
+
+  if (document.getElementById('inputHindsightBaseUrl')) {
+    document.getElementById('inputHindsightBaseUrl').value = status.baseUrl;
+  }
+  if (document.getElementById('inputHindsightBankId')) {
+    document.getElementById('inputHindsightBankId').value = status.bankId;
+  }
+}
+
+function appendHindsightLog(msg) {
+  const box = document.getElementById('hindsightConsoleLog');
+  if (box) {
+    const time = new Date().toLocaleTimeString();
+    box.textContent += `\n[${time}] ${msg}`;
+    box.scrollTop = box.scrollHeight;
+  }
 }
 
 window.openCaseTimelineModal = async function(id) {
